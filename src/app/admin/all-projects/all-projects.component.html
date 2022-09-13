@@ -1,0 +1,245 @@
+<div class="container-fluid p-2 mt-3" style="font-family: trebuchet ms; color: #29465B;">
+    <h2>Projects</h2>
+</div>
+
+<div class="container text-end p-3" *ngIf="Add">
+    
+    <div *ngIf="Warning" class="text-start alert alert-warning alert-dismissible fade show" role="alert">
+        <strong>Can't delete this record !</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#exampleModal1" (click)="insertData()">
+        Add Project
+    </button>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Project Detail</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form [formGroup]="projectData">
+                        <div class="row text-start">
+                            <input type="number" [value]="Project.projectId" readonly hidden>
+                            <div class="col-6 mb-4">Project Name :</div>
+                            <div class="col-6"><input type="text" class="form-control" formControlName="projectName" />
+                            </div>
+                            <div class="col-6 mb-4">Project Description :</div>
+                            <div class="col-6"><input type="text" class="form-control"
+                                    formControlName="projectDescription" /></div>
+                            <div class="col-6 mb-4">Technology :</div>
+                            <div class="col-6">
+                                <select class="form-control text-center" formControlName="projectTech">
+                                    <option [ngValue]="0" selected disabled>---Select---</option>
+                                    <option [ngValue]="1">Microsoft Tech</option>
+                                    <option [ngValue]="2">Java</option>
+                                    <option [ngValue]="3">Python</option>
+                                </select>
+                            </div>
+                            <div class="col-6 mb-4">Start Date :</div>
+                            <div class="col-6"><input type="date" class="form-control" formControlName="startDate" />
+                            </div>
+                            <div class="col-6 mb-4">End Date :</div>
+                            <div class="col-6"><input type="date" class="form-control" formControlName="endDate" />
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="text-center mb-2">
+                    <span class="text-danger"> {{error}} </span>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" *ngIf="insert" class="btn btn-success" (click)="addProject()">Add</button>
+                    <button type="submit" *ngIf="update" class="btn btn-success" (click)="updateProject()">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <table class="table table-bordered table-striped table-hover shadow" style="background-color:#f0ebe3; font-family: 'Lucida Console';">
+        <thead class="text-center">
+
+            <tr  style="background-color: #DCDCDC">
+                <th>Project ID</th>
+                <th>Project Name</th>
+                <th>Project Details</th>
+                <th>Technology</th>
+                <th></th>
+                <th></th>
+                <th *ngIf="Manager"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let i of Projects">
+                <td>
+                    {{i.projectId}}
+
+                </td>
+                <td>
+                    {{i.projectName}}
+
+                </td>
+                <td>
+                    {{i.projectDescription}}
+
+                </td>
+                <td class="text-center">
+                    {{i.projectTech}}
+
+                </td>
+                <td class="text-center">
+                    <div class="container">
+                        <!--Button trigger modal-->
+                        <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#exampleModal"
+                            (click)="byId(i.projectId)">
+                            Detail
+                        </button>
+    
+    
+                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                            aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Employee Detail</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="row text-start">
+                                            <div class="col-6">Project Id :</div>
+                                            <div class="col-6">{{Project.projectId}}</div>
+                                            <div class="col-6">Project Name :</div>
+                                            <div class="col-6">{{Project.projectName}}</div>
+                                            <div class="col-6">Project Details :</div>
+                                            <div class="col-6">{{Project.projectDescription}}</div>
+                                            <div class="col-6">Technology :</div>
+                                            <div class="col-6">{{Project.projectTech}}</div>
+                                            <div class="col-6">Start Date :</div>
+                                            <div class="col-6">{{Project.startDate}}</div>
+                                            <div class="col-6">End Date :</div>
+                                            <div class="col-6">{{Project.endDate}}</div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">Close</button>
+                                        <button *ngIf="Edit" type="button" class="btn btn-success" data-bs-toggle="modal"
+                                            data-bs-target="#exampleModal1" (click)="fillData()" >
+                                            Edit </button>
+                                        <button *ngIf="Remove" type="button" class="btn btn-danger" data-bs-dismiss="modal" (click)="deleteProject(Project.projectId)" >Delete</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <div class="container text-center">                    
+                        <!-- Button trigger modal -->
+                        <button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#exampleModal2" (click)="projectMembers(i.projectId)">
+                            Project Members
+                        </button>
+                    
+                        <!-- Modal -->
+                        <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered modal-lg">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Project Members</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <table class="table table-bordered">
+                                            <thead>
+                                                <tr class="text-center">
+                                                    <th>Employee Id</th>
+                                                    <th>Employee Name</th>
+                                                    <th>Employee Email</th>
+                                                    <th>Employee Role</th>
+                                                    <th>Technology</th>
+                                                    <th *ngIf="Remove">#</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let i of Team">
+                                                    <td>{{i.employeeId}}</td>
+                                                    <td>{{i.employeeName}}</td>
+                                                    <td>{{i.employeeEmail}}</td>
+                                                    <td>{{i.role}}</td>
+                                                    <td>{{i.technology}}</td>
+                                                    <td *ngIf="Remove"><button class="btn btn-danger" data-bs-dismiss="modal" (click)="removeMember(i.id)">Delete</button></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+                <td *ngIf="Manager">
+                    <div class="container text-center">
+                        <!-- Button trigger modal -->
+                        <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#exampleModal0" (click)="getEmployee(i.projectId, i.projectName)">
+                            Add Project Member
+                        </button>
+                    
+                        <!-- Modal -->
+                        <div class="modal fade" id="exampleModal0" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered modal-lg">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Add Project Member</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form [formGroup]="projectTeamData">
+                                            <div class="row text-start">
+                                                <!-- <input type="text" [value]="Employee.employeeId" hidden> -->
+                                                <div class="col-6 mb-4">Project :</div>
+                                                <div class="col-6 text-center fs-4">
+                                                    <label>{{Name}}</label>
+                                                    <input type="number" class="form-control" formControlName="projectId" hidden readonly/>
+                                                </div>
+                                                <div class="col-6 mb-4">Employee :</div>
+                                                <div class="col-6"><select formControlName="employeeId" class="form-control">
+                                                    <option selected disabled>---Select---</option>
+                                                    <option *ngFor="let i of EmployeeDetails" [ngValue]="i.employeeId">{{i.employeeName}}</option>
+                                                </select></div>
+                                            </div>
+                                        </form>
+                                        <span class="text-danger">{{msg}}</span>
+                                        <div class="d-flex justify-content-center">
+
+                                            <div class="alert alert-danger" role="alert" style="width: 50%;" *ngIf="empError">
+                                                Employee already exist !
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        <button type="submit" class="btn btn-success" (click)="addMember()">Add</button>
+                                        <!--<button type="submit" *ngIf="update" class="btn btn-success" (click)="updateEmployee()">Save</button> -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+</div>

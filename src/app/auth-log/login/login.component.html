@@ -1,0 +1,21 @@
+<div class="container bg-dark p-lg-5 mt-lg-5" style="width: 40%; border-radius: 15px;">
+    <div class="text-center text-light fs-1 mb-5">
+        <label>Login</label>
+    </div>
+    <form [formGroup]="login">
+        <div class="form-floating mb-3">
+            <input type="email" class="form-control" id="floatingInput" formControlName="Email" placeholder="name@example.com">
+            <label for="floatingInput">Email address</label>
+        </div>
+        <div class="form-floating">
+            <input type="password" class="form-control" id="floatingPassword" formControlName="Password" placeholder="Password">
+            <label for="floatingPassword">Password</label>
+        </div>
+        <div class="container mt-5 text-center">
+            <input type="submit" value="Sign in" class="btn btn-outline-success" (click)="loginUser()">
+        </div>
+    </form>
+    <div class="alert alert-danger mt-4 text-center" *ngIf="err" role="alert">
+        Invalid Username and Password !     
+    </div>
+</div>

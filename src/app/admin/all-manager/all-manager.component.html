@@ -1,0 +1,117 @@
+
+<div class="container-fluid p-2 mt-3" style="font-family: trebuchet ms; color: #29465B;">
+    <h2>Managers</h2>
+</div>
+
+<div class="container">
+    <table  class="table table-bordered table-striped table-hover shadow" style="background-color:#f0ebe3; font-family: 'Lucida Console';">
+        <thead class="text-center">
+            <tr>
+                <th>Manager ID</th>
+                <th>Manager Name</th>
+                <th>Manager Email</th>
+                <th>Technology</th>
+                <th>#</th>
+                <th *ngIf="Manager">#</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let i of Managers">
+                <td>{{i.employeeId}}</td>
+                <td>{{i.employeeName}}</td>
+                <td>{{i.employeeEmail}}</td>
+                <td class="text-center">{{i.technology}}</td>
+                <td class="text-center">
+                    <div class="container">                    
+                        <!-- Button trigger modal -->
+                        <button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#exampleModal1" (click)="getTeam(i.employeeId)">
+                            Team Members
+                        </button>
+                    
+                        <!-- Modal -->
+                        <div class="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered modal-lg">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Team Members</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <table class="table table-bordered">
+                                            <thead>
+                                                <tr class="text-center">
+                                                    <th>Employee Id</th>
+                                                    <th>Employee Name</th>
+                                                    <th>Employee Email</th>
+                                                    <th>Employee Role</th>
+                                                    <th>Technology</th>
+                                                    <th>#</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let i of Team">
+                                                    <td>{{i.employeeId}}</td>
+                                                    <td>{{i.employeeName}}</td>
+                                                    <td>{{i.employeeEmail}}</td>
+                                                    <td>{{i.role}}</td>
+                                                    <td>{{i.technology}}</td>
+                                                    <td><button class="btn btn-danger" data-bs-dismiss="modal" (click)="removeMember(i.id)">Delete</button></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+                <td *ngIf="Manager">
+                    <div class="container text-center">
+                        <!-- Button trigger modal -->
+                        <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="getEmployee(i.employeeId, i.employeeName)">
+                            Add Member
+                        </button>
+                    
+                        <!-- Modal -->
+                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered modal-lg">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Add Team Member</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form [formGroup]="teamData">
+                                            <div class="row text-start">
+                                                <!-- <input type="text" [value]="Employee.employeeId" hidden> -->
+                                                <div class="col-6 mb-4">Manager :</div>
+                                                <div class="col-6">
+                                                    <label>{{Name}}</label>
+                                                    <input type="number" class="form-control" formControlName="managerId" [hidden]="true" readonly />
+                                                </div>
+                                                <div class="col-6 mb-4">Employee :</div>
+                                                <div class="col-6"><select formControlName="employeeId" class="form-control">
+                                                    <option selected disabled>---Select---</option>
+                                                    <option *ngFor="let i of EmployeeDetails" [ngValue]="i.employeeId">{{i.employeeName}}</option>
+                                                </select></div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        <button type="submit" class="btn btn-success" (click)="addMember()">Add</button>
+                                        <!--<button type="submit" *ngIf="update" class="btn btn-success" (click)="updateEmployee()">Save</button> -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+</div>

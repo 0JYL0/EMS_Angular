@@ -1,0 +1,198 @@
+<div class="container-fluid p-2 mt-3" style="font-family: trebuchet ms; color: #29465B;">
+    <h2>Employees</h2>
+</div>
+
+<div class="container text-end p-3" *ngIf="Add">
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#exampleModal1" (click)="insertData()">
+        Add Employee
+    </button>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Employee Detail</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form [formGroup]="employeeData">
+                        <div class="row text-start">
+                            <input type="text" [value]="Employee.employeeId" hidden>
+                            <div class="col-6 mb-4">Employee Name :</div>
+                            <div class="col-6"><input type="text" class="form-control" formControlName="employeeName" />
+                            </div>
+                            <div class="col-6 mb-4">Employee Address :</div>
+                            <div class="col-6"><input type="text" class="form-control"
+                                    formControlName="employeeAddress" /></div>
+                            <div class="col-6 mb-4">Employee Email :</div>
+                            <div class="col-6"><input type="email" class="form-control"
+                                    formControlName="employeeEmail" /></div>
+                            <div class="col-6 mb-4">Password :</div>
+                            <div class="col-6"><input type="password" class="form-control" formControlName="password" />
+                            </div>
+                            <div class="col-6 mb-4">Joining Date :</div>
+                            <div class="col-6"><input type="date" class="form-control"
+                                    formControlName="employeeJoiningDate" /></div>
+                            <div class="col-6 mb-4">Experience :</div>
+                            <div class="col-6"><input type="text" class="form-control"
+                                    formControlName="employeeExperience" /></div>
+                            <div class="col-6 mb-4">Role :</div>
+                            <div class="col-6">
+                                <select class="form-control text-center" formControlName="role">
+                                    <option [ngValue]="0" selected disabled>---Select---</option>
+                                    <option [ngValue]="1">Project Manager</option>
+                                    <option [ngValue]="2">Senior Developer</option>
+                                    <option [ngValue]="3">Junior Developer</option>
+                                </select>
+                            </div>
+                            <div class="col-6 mb-4">Department :</div>
+                            <div class="col-6">
+                                <select class="form-control text-center" formControlName="department">
+                                    <option [ngValue]="0" selected disabled>---Select---</option>
+                                    <option [ngValue]="1">Admin</option>
+                                    <option [ngValue]="2">Manager</option>
+                                    <option [ngValue]="3">Employee</option>
+                                </select>
+                            </div>
+                            <div class="col-6 mb-4">Technology :</div>
+                            <div class="col-6">
+                                <select class="form-control text-center" formControlName="technology">
+                                    <option [ngValue]="0" selected disabled>---Select---</option>
+                                    <option [ngValue]="1">Microsoft Tech</option>
+                                    <option [ngValue]="2">Java</option>
+                                    <option [ngValue]="3">Python</option>
+                                </select>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="text-center mb-2">
+                    <span class="text-danger"> {{err}} </span>
+                </div>
+                <div class="d-flex justify-content-center" *ngIf="success">
+
+                    <div class="alert alert-success d-flex align-items-center" role="alert" style="width: 50%;">
+                        <div>
+                          Employee Added successfully !
+                        </div>
+                      </div>
+                </div>
+                <div class="d-flex justify-content-center" *ngIf="email">
+
+                    <div class="alert alert-danger d-flex align-items-center" role="alert" style="width: 50%;">
+                        <div>
+                          Email address already exist !
+                        </div>
+                      </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="closed" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" *ngIf="insert" class="btn btn-success" (click)="addEmployee()">Add</button>
+                    <button type="submit" *ngIf="update" class="btn btn-success" (click)="updateEmployee()">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <table class="table table-bordered table-striped table-hover shadow" style="background-color:#f0ebe3; font-family: 'Lucida Console';">
+        <thead class="text-center">
+
+            <tr style="background-color: #DCDCDC">
+                <th>
+                    Employee ID
+                </th>
+                <th>
+                    Employee Name
+                </th>
+                <th>
+                    Employee Address
+                </th>
+                <th>
+                    Department
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let i of Employees">
+                <td>
+                    {{i.employeeId}}
+
+                </td>
+                <td>
+                    {{i.employeeName}}
+
+                </td>
+                <td>
+                    {{i.employeeAddress}}
+
+                </td>
+                <td class="text-center">
+                    {{i.department}}
+
+                </td>
+                <td class="text-center">
+                    <!-- Button trigger modal -->
+                    <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#exampleModal"
+                        (click)="byID(i.employeeId)">
+                        Info
+                    </button>
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                        aria-hidden="true" >
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content"  style="background-color: #f0f8ff;">
+                                <div class="modal-header" style="background:linear-gradient(25deg,rgb(174, 236, 217),rgb(184, 184, 237));">
+                                    <h5 class="modal-title text-dark" id="exampleModalLabel">Employee Detail</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="row text-start">
+                                        <div class="col-6">Employee Id :</div>
+                                        <div class="col-6">{{Employee.employeeId}}</div>
+                                        <div class="col-6">Employee Name :</div>
+                                        <div class="col-6">{{Employee.employeeName}}</div>
+                                        <div class="col-6">Employee Address :</div>
+                                        <div class="col-6">{{Employee.employeeAddress}}</div>
+                                        <div class="col-6">Employee Email :</div>
+                                        <div class="col-6">{{Employee.employeeEmail}}</div>
+                                        <div class="col-6">Joining Date :</div>
+                                        <div class="col-6">{{Employee.employeeJoiningDate}}</div>
+                                        <div class="col-6">Experience :</div>
+                                        <div class="col-6">{{Employee.employeeExperience}}</div>
+                                        <div class="col-6">Role :</div>
+                                        <div class="col-6">{{Employee.role}}</div>
+                                        <div class="col-6">Department :</div>
+                                        <div class="col-6">{{Employee.department}}</div>
+                                        <div class="col-6">Technology :</div>
+                                        <div class="col-6">{{Employee.technology}}</div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer" style="background:linear-gradient(25deg,rgb(184, 184, 237),rgb(174, 236, 217));">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal1" *ngIf="Manager" (click)="fillData()">
+                                            Edit </button>
+                                    <button type="button" class="btn btn-danger"
+                                        data-bs-dismiss="modal" (click)="deleteEmployee(Employee.employeeId,Employee.employeeName)" *ngIf="Remove">Delete</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="alert alert-danger alert-dismissible fade show" role="alert" style="width: 50%;" *ngIf="delete">
+        {{Emp_Name}} is associated with Manager and Project.
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+
+</div>
+

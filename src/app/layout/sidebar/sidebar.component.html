@@ -1,0 +1,20 @@
+<div class="container-fluid text-center mb-5">
+    <img src="../../../assets/img/3286cbacb48e46a883534dd56ee4d833.png" alt="" style="width: 130px;">
+</div>
+<div class="container-fluid fs-5 text-start pt-3">
+    <div class="mb-2">
+        <a routerLink="GetAllEmployee" class="text-start">
+        <img src="../../../assets/img/user.png" alt="" style="width: 25px;">
+        &nbsp;Profiles</a>
+    </div>
+    <br>
+    <div class="mb-2" *ngIf="Manager">
+        <a routerLink="GetAllManager" class="text-start">
+            <img src="../../../assets/img/icons8-manager-40.png" alt="" style="width: 15px;">&nbsp;&nbsp;Managers</a>
+    </div>
+    <br>
+    <div class="mb-2">
+        <a routerLink="GetAllProjects" class="text-start">
+            <img src="../../../assets/img/blueprint.png" alt="" style="width: 20px;">&nbsp;&nbsp;&nbsp;Projects</a>
+    </div>
+</div>
