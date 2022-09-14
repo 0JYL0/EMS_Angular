@@ -30,7 +30,15 @@ export class AllProjectsComponent implements OnInit {
   Employee: boolean = this.api.Employee;
 
 
-  constructor(private api: ApiService) { }
+  constructor(private api: ApiService) {
+    this.projectData = new FormGroup({
+      projectName: new FormControl('', Validators.required),
+      projectDescription: new FormControl('', Validators.required),
+      projectTech: new FormControl('', Validators.required),
+      startDate: new FormControl('', Validators.required),
+      endDate: new FormControl('', Validators.compose([Validators.required]))
+    });
+   }
 
   ngOnInit(): void {
     this.getAllProjects();
@@ -38,13 +46,9 @@ export class AllProjectsComponent implements OnInit {
     this.Project = { projectId: '' }
   }
 
-  projectData = new FormGroup({
-    projectName: new FormControl('', Validators.required),
-    projectDescription: new FormControl('', Validators.required),
-    projectTech: new FormControl('', Validators.required),
-    startDate: new FormControl('', Validators.required),
-    endDate: new FormControl('', Validators.compose([Validators.required]))
-  });
+  projectData !: FormGroup;
+
+ 
 
   projectTeamData = new FormGroup({
     projectId: new FormControl('', Validators.required),

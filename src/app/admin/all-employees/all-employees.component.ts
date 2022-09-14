@@ -28,16 +28,9 @@ export class AllEmployeesComponent implements OnInit {
   EmployeeId = JSON.parse(this.tempId);
   Role = JSON.parse(this.tempRole);
 
-  constructor(private api: ApiService, private router: Router) { }
-
-
-  Add:boolean = this.api.Add;
-  Edit:boolean = this.api.Edit;
-  Remove:boolean = this.api.Remove;
-  Manager:boolean = this.api.Manager;
-
-
-  employeeData = new FormGroup({
+  constructor(private api: ApiService, private router: Router) {
+    
+  this.employeeData = new FormGroup({
     employeeName: new FormControl('', Validators.compose([Validators.required])),
     employeeAddress: new FormControl(''),
     employeeEmail: new FormControl('', Validators.compose([Validators.required, Validators.email])),
@@ -48,6 +41,16 @@ export class AllEmployeesComponent implements OnInit {
     department: new FormControl('', Validators.compose([Validators.required])),
     technology: new FormControl('', Validators.compose([Validators.required])),
   })
+   }
+
+
+  Add:boolean = this.api.Add;
+  Edit:boolean = this.api.Edit;
+  Remove:boolean = this.api.Remove;
+  Manager:boolean = this.api.Manager;
+
+  employeeData !: FormGroup;
+
 
   ngOnInit(): void {
     this.getAllEmployee();
